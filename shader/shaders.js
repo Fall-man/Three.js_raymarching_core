@@ -16,7 +16,7 @@ precision mediump int;
 // Uniforms
 uniform float time;
 uniform vec2 resolution;
-vec3 lightDir=normalize(vec3(0.,0.,.1));
+vec3 lightDir=normalize(vec3(.2,.2,.1));
 
 // Fundamental operation functions
 float dot2(vec2 v){
@@ -125,11 +125,9 @@ float sdRoundCone(vec3 p,vec3 a,vec3 b,float r1,float r2){
 }
 
 float sceneDist(vec3 p){
-    // return sdSphere(p, 1.);
-    float roundBox1=sdRoundBox(vec3(opRep2(p.xy,vec2(50.,50.)),p.z),vec3(10.,10.,4.),1.);
-    float sphere1=sdSphere(vec3(opRep2(p.xy,vec2(50.,50.)),p.z)-vec3(0.,0.,4.),4.);
-    float sphere2=sdSphere(vec3(opRep2(p.xy,vec2(50.,50.)),p.z)-vec3(15.*sin(sin(TWO_PI*.4*time)),0.,25.-15.*cos(sin(TWO_PI*.4*time))),3.);
-    return opUnion(sphere2,opSmoothSubtraction(sphere1,roundBox1,1.));
+    float box1=sdBox(vec3(opRep2(p.xy,vec2(20.,20.)),p.z),vec3(10.,10.,4.));
+    float sphere1=sdSphere(vec3(opRep2(p.xy,vec2(20.,20.)),p.z)-vec3(0.,0.,4.),4.);
+    return opSmoothSubtraction(sphere1,box1,1.);
 }
 
 vec3 getNormal(vec3 p){
@@ -142,13 +140,13 @@ vec3 getNormal(vec3 p){
     
     float genShadow(vec3 ro,vec3 rd){
         float h=0.;
-        float c=.001;
+        float c=0.001;
         float r=1.;
         float shadowCoef=.5;
         
         for(float t=0.;t<50.;t++){
             h=sceneDist(ro+rd*c);
-            if(h<.001){
+            if(h<0.001){
                 return shadowCoef;
             }
             r=min(r,h*64./c);
@@ -166,11 +164,11 @@ vec3 getNormal(vec3 p){
         // vec3 cPos = vec3(0.0, 20.0, 20.0);
         float rotationTime=mod(time,10.)/10.*TWO_PI;
         mat2 rotateMat=mat2(-sin(rotationTime),cos(rotationTime),cos(rotationTime),sin(rotationTime));
-        vec3 cPos=vec3(rotateMat*vec2(20.,0.),12.)+cTarget;
+        vec3 cPos=vec3(rotateMat*vec2(20.,0.),40.)+cTarget;
         vec3 cDir=normalize(cTarget-cPos);
         vec3 cUp=normalize(cross(cDir,cross(cDir,cTarget+2.*vec3(0.,0.,cPos.z-cTarget.z))))*(-1.);
         vec3 cSide=cross(cDir,cUp);
-        float targetDepth=1.;
+        float targetDepth=1.0;
         
         vec3 ray=normalize(cSide*p.x+cUp*p.y+cDir*targetDepth);
         
@@ -180,7 +178,7 @@ vec3 getNormal(vec3 p){
         
         for(int i=0;i<128;i++){
             distance=sceneDist(rPos);
-            if(distance<.001){break;}
+            if(distance<.0001){break;}
             rLen+=distance;
             rPos=cPos+ray*rLen;
         }
@@ -188,10 +186,10 @@ vec3 getNormal(vec3 p){
         vec3 light=normalize(lightDir+vec3(0.,0.,0.));
         // vec3 light = normalize(lightDir + vec3(4 * sin(rotationTime * 2.0), 0.0, 0.0));
         
-        vec3 color=vec3(.0);
+        vec3 color=vec3(.0, .0, .0);
         float shadow=1.;
         
-        if(abs(distance)<.001){
+        if(abs(distance)<.0001){
             vec3 normal=getNormal(rPos);
             
             vec3 halfLE=normalize(light-ray);

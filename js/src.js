@@ -1,8 +1,10 @@
 import {vShader, fShader} from '../shader/shaders.js'; 
+import Stats from './three/examples/jsm/libs/stats.module.js';
 
 var scene, camera, renderer;
 var geometry, material, mesh;
 var canvas;
+var stats;
 
 init();
 render();
@@ -40,12 +42,20 @@ function init(){
     // canvasを作成し，div要素に紐付ける
     canvas = renderer.domElement;
     document.getElementById('containar').appendChild(canvas);
+
+    stats = new Stats();
+    stats.showPanel(0);
+    document.body.appendChild(stats.dom);
 }
 
 // ループ
 function render(timestamp){
     requestAnimationFrame(render);
+
+    stats.begin();
+
     material.uniforms.time.value = timestamp * 0.001 % 10;
+
+    stats.end();
     renderer.render(scene, camera);
-    // console.log(timestamp*0.001 % 10);
 }
