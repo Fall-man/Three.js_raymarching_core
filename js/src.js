@@ -1,5 +1,3 @@
-// import {WEBGL} from './three/examples/jsm/WebGL.js';
-
 var scene, camera, renderer;
 var geometry, material, mesh;
 var canvas;
@@ -10,9 +8,6 @@ render();
 // 初期化
 function init(){
 
-    // if(WebGL.isWebGL2Available() === false){
-    //     document.body.appendChild(WEBGL.getWebGL2ErrorMessage());
-    // }
 
     // シーンとカメラオブジェクトを作成
     scene = new THREE.Scene();
@@ -36,14 +31,7 @@ function init(){
     scene.add(mesh);
 
     // rendererを512x512のサイズで作成
-    // var canvas_GL2 = document.createElement('canvas');
-    // var context = canvas.getContext('webgl2', {alpha: false});
-    renderer = new THREE.WebGLRenderer(
-    // {
-        // canvas: canvas, 
-        // context: context
-    // }
-    );
+    renderer = new THREE.WebGLRenderer();
     renderer.setSize(1024.0, 720.0);
 
 
