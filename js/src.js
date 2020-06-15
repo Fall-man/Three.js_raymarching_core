@@ -1,8 +1,9 @@
 import { WEBGL } from './three/examples/jsm/WebGL.js';
+import {vShader, fShader} from '../shader/shaders.js'; 
+import Stats from './three/examples/jsm/libs/stats.module.js';
 
 let scene, camera, renderer;
 let  material;
-
 
 init();
 render();
@@ -27,8 +28,8 @@ function init(){
             time: { type:   "f", value: 0.0 },
             resolution: {   type:   "v2",   value:  new THREE.Vector2(1024.0, 720.0) }
         },
-        vertexShader: document.getElementById('vs').textContent,
-        fragmentShader: document.getElementById('fs').textContent
+        vertexShader: vShader,
+        fragmentShader: fShader
     });
 
     // meshを作成し，シーンに紐づける
@@ -49,11 +50,20 @@ function init(){
 
     // canvasを作成し，div要素に紐付ける
     document.getElementById('containar').appendChild(canvas);
+
+    stats = new Stats();
+    stats.showPanel(0);
+    document.body.appendChild(stats.dom);
 }
 
 // ループ
 function render(timestamp){
     requestAnimationFrame(render);
-    material.uniforms.time.value = timestamp * 0.001;
+
+    stats.begin();
+
+    material.uniforms.time.value = timestamp * 0.001 % 10;
+
+    stats.end();
     renderer.render(scene, camera);
 }
