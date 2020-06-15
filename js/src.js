@@ -3,7 +3,8 @@ import {vShader, fShader} from '../shader/shaders.js';
 import Stats from './three/examples/jsm/libs/stats.module.js';
 
 let scene, camera, renderer;
-let  material;
+let material;
+let stats;
 
 init();
 render();
