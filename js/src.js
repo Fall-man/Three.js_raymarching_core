@@ -1,3 +1,5 @@
+import {vShader, fShader} from '../shader/shaders.js'; 
+
 var scene, camera, renderer;
 var geometry, material, mesh;
 var canvas;
@@ -22,8 +24,8 @@ function init(){
             time: { type:   "f", value: 0.0 },
             resolution: {   type:   "v2",   value:  new THREE.Vector2(1024.0, 720.0) }
         },
-        vertexShader: document.getElementById('vs').textContent,
-        fragmentShader: document.getElementById('fs').textContent
+        vertexShader: vShader,
+        fragmentShader: fShader
     });
 
     // meshを作成し，シーンに紐づける
@@ -43,6 +45,7 @@ function init(){
 // ループ
 function render(timestamp){
     requestAnimationFrame(render);
-    material.uniforms.time.value = timestamp * 0.001;
+    material.uniforms.time.value = timestamp * 0.001 % 10;
     renderer.render(scene, camera);
+    // console.log(timestamp*0.001 % 10);
 }
