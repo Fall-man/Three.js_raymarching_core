@@ -1,0 +1,27 @@
+{
+  "name": "raymarching_core",
+  "version": "1.0.0",
+  "description": "## Library - [Three.js r117.0](https://github.com/mrdoob/three.js/releases/tag/r117)",
+  "main": "index.js",
+  "scripts": {
+    "test": "test"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/Fall-man/Three.js_raymarching_core.git"
+  },
+  "keywords": [
+    "OpenGL",
+    "GLSL",
+    "Raymarching"
+  ],
+  "author": "Akihito TAKEUCHI (Fall-man)",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/Fall-man/Three.js_raymarching_core/issues"
+  },
+  "homepage": "https://github.com/Fall-man/Three.js_raymarching_core#readme",
+  "devDependencies": {
+    "webpack-glsl-loader": "^1.0.1"
+  }
+}
