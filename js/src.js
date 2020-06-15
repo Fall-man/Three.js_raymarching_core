@@ -1,8 +1,8 @@
-// import {WEBGL} from './three/examples/jsm/WebGL.js';
+import { WEBGL } from './three/examples/jsm/WebGL.js';
 
-var scene, camera, renderer;
-var geometry, material, mesh;
-var canvas;
+let scene, camera, renderer;
+let  material;
+
 
 init();
 render();
@@ -10,16 +10,16 @@ render();
 // 初期化
 function init(){
 
-    // if(WebGL.isWebGL2Available() === false){
-    //     document.body.appendChild(WEBGL.getWebGL2ErrorMessage());
-    // }
+    if(WEBGL.isWebGL2Available() === false){
+        document.body.appendChild(WEBGL.getWebGL2ErrorMessage());
+    }
 
     // シーンとカメラオブジェクトを作成
     scene = new THREE.Scene();
     camera = new THREE.Camera();
 
     //　何もないBuffer Geometry を作成
-    geometry = new THREE.PlaneBufferGeometry(2.0, 2.0);
+    const geometry = new THREE.PlaneBufferGeometry(2.0, 2.0);
 
     // Shaderをマテリアルに当てる，Uniformとシェーダファイルの紐付け
     material = new THREE.ShaderMaterial({
@@ -32,23 +32,22 @@ function init(){
     });
 
     // meshを作成し，シーンに紐づける
-    mesh = new THREE.Mesh(geometry, material);
+    const mesh = new THREE.Mesh(geometry, material);
     scene.add(mesh);
 
     // rendererを512x512のサイズで作成
-    // var canvas_GL2 = document.createElement('canvas');
-    // var context = canvas.getContext('webgl2', {alpha: false});
+    const canvas = document.createElement('canvas');
+    const context = canvas.getContext('webgl2', {alpha: false});
     renderer = new THREE.WebGLRenderer(
-    // {
-        // canvas: canvas, 
-        // context: context
-    // }
+    {
+        canvas: canvas, 
+        context: context
+    }
     );
     renderer.setSize(1024.0, 720.0);
 
 
     // canvasを作成し，div要素に紐付ける
-    canvas = renderer.domElement;
     document.getElementById('containar').appendChild(canvas);
 }
 
