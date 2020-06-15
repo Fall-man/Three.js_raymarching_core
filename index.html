@@ -11,6 +11,7 @@
         </div>
 
         <script id="vs" type="x-shader/x-vertex">
+        #version 300 es
 
         void main(void) {
             gl_Position = vec4(position, 1.0); 
@@ -18,8 +19,11 @@
         </script>
 
         <script id="fs" type="x-shader/x-fragment">
+        #version 300 es
 
         precision mediump float;
+
+        out vec4 fragColor;
 
         uniform float time;
         uniform vec2 resolution;
@@ -27,7 +31,7 @@
         void main(){
             vec2 p = (gl_FragCoord.xy * 2.0 - resolution) / min(resolution.x, resolution.y);
             vec3 color = vec3((p+1.0)*0.5, abs(sin(time)));
-            gl_FragColor = vec4(color, 1.0);
+            fragColor = vec4(color, 1.0);
         }
         </script>
 
